@@ -1,70 +1,81 @@
 Project: Adversarial Robustness on FER2013
 
-## 1. Overview
+1. Overview
 
-This project trains a CNN on the FER2013 facial expression dataset and
-studies how robust it is to adversarial attacks.
+This project trains a CNN on the FER2013 facial expression dataset and evaluates its resistance to adversarial manipulation. The work includes two attack methods, two defense methods and a validation step using Foolbox to confirm correctness.
 
-Implemented attacks: • PGD (Projected Gradient Descent) under L infinity
-• DeepFool under L2
+Implemented attacks
+PGD (Projected Gradient Descent) under L infinity
+DeepFool under L2
 
-Implemented defenses: • Feature Squeezing with spatial smoothing •
+Implemented defenses
+Feature Squeezing with spatial smoothing
 Adversarial training using PGD and DeepFool examples
 
-We also use Foolbox to validate the custom attack implementations.
+2. Dataset
 
-## 2. Environment and Dependencies
+Primary dataset: FER2013
+Source: https://www.kaggle.com/datasets/ashishpatel26/facial-expression-recognitionferchallenge
 
-Recommended: Python 3.8+ with GPU support.
+Dataset file: fer2013.csv
+Image size: 48x48 grayscale faces
 
-Main packages: • numpy, pandas, matplotlib • scikit-learn • tensorflow
-(2.x) with tf.keras • foolbox==3.3.4
+Columns in the file
+pixels: space-separated pixel values
+emotion: integer label in the range 0 to 6
+Usage: defines the train, validation and test split
 
-Example installation:
+Dataset split
+Training: Usage equals "Training" (28,709 images)
+Validation: Usage equals "PublicTest" (3,589 images)
+Test: Usage equals "PrivateTest" (3,589 images)
 
-pip install numpy pandas matplotlib scikit-learn tensorflow pip install
-foolbox==3.3.4
+Total images: 35,887
 
-## 3. Dataset: FER2013 and Splits
+3. Environment and Dependencies
 
-Input file: fer2013.csv (48x48 grayscale faces).
+Recommended environment
+Python 3.8 or newer with GPU acceleration
 
-Columns: • "pixels": space separated pixel values • "emotion": integer
-label in \[0, 6\] • "Usage": dataset split indicator
+Main packages used
+numpy
+pandas
+matplotlib
+scikit-learn
+tensorflow 2.x with tf.keras
+foolbox version 3.3.4
 
-The split is done using the "Usage" column: • Training: Usage ==
-"Training" 28,709 images • Validation: Usage == "PublicTest" 3,589
-images • Test: Usage == "PrivateTest" 3,589 images
+Installation example
+pip install numpy pandas matplotlib scikit-learn tensorflow
+pip install foolbox==3.3.4
 
-Total: 35,887 images (about 80 percent / 10 percent / 10 percent).
+4. Models and Saved Files
 
-## 4. Models and Saved Files
+baseline_cnn.h5
+Model trained only on clean FER2013 data.
 
-The notebook saves and loads:
+robust_cnn_adv_pgd_df_pro.h5
+Model further trained using adversarial examples from PGD and DeepFool.
 
-• baseline_cnn.h5\
-CNN trained only on clean data.
+If these files are present, the notebook loads them automatically to avoid retraining.
 
-• robust_cnn_adv_pgd_df_pro.h5\
-CNN further trained with adversarial examples (PGD + DeepFool).
+5. How To Run
 
-If these files exist, the notebook will reuse them instead of
-retraining.
+Step 1  
+Open the notebook (ipynb) in Jupyter, Colab or Kaggle and enable GPU if available.
 
-## 5. How To Run
+Step 2  
+Ensure fer2013.csv is accessible and that the path inside the notebook is correct.
 
-1)  Open the notebook (ipynb) in Jupyter, Colab or Kaggle.\
-    Enable GPU if possible.
+Step 3  
+Execute all notebook cells from top to bottom:
+Data loading and preprocessing
+Baseline CNN training or loading
+PGD and DeepFool attack generation
+Evaluation on clean and adversarial examples
+Feature Squeezing defense evaluation
+Adversarial training and evaluation of the robust model
+Foolbox-based validation of attack implementations
 
-2)  Make sure fer2013.csv is available and the path in the notebook
-    points to it.
-
-3)  Run all cells from top to bottom: • Data loading and preprocessing
-    (including dataset split) • Baseline CNN definition and training or
-    loading • PGD and DeepFool attack generation • Evaluation on clean
-    and adversarial examples • Feature Squeezing defense • Adversarial
-    training and evaluation of the robust model • Foolbox based
-    validation
-
-4)  Inspect printed accuracies and plots to compare: • Baseline vs
-    attacks • Baseline + Feature Squeezing • Adversarially trained model
+Step 4  
+Review printed metrics and plots to compare performance across models and attack or defense configurations.

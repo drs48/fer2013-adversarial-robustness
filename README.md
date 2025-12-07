@@ -1,106 +1,104 @@
-Project: Adversarial Robustness on FER2013
+# Project: Adversarial Robustness on FER2013
 
-1. What this project does
+## 1. What this project does
 
-This project trains a convolutional neural network on the FER2013 facial expression dataset and then tests how the model behaves under adversarial attacks (PGD and DeepFool). It also trains a more robust model using adversarial training and evaluates a simple defense based on feature squeezing.
+This project trains a convolutional neural network on the FER2013 facial expression dataset and then tests how the model behaves under adversarial attacks using PGD and DeepFool. It also trains a more robust model using adversarial training and evaluates a simple defense based on feature squeezing.
 
-The main code is in the Jupyter notebook fer2013-adversarial-robustness.ipynb.
+The main code is in the Jupyter notebook `fer2013-adversarial-robustness.ipynb`.
 
+## 2. Requirements
 
-2. Requirements
-
-Python version
+Python version  
 Python 3.8 or newer
 
-Recommended hardware
-NVIDIA GPU with CUDA support
+Recommended hardware  
+NVIDIA GPU with CUDA support  
 At least 8 GB RAM
 
-Python packages
-tensorflow 2.x
-numpy
-pandas
-matplotlib
-scikit-learn
-foolbox==3.3.4
+Python packages  
+tensorflow 2.x  
+numpy  
+pandas  
+matplotlib  
+scikit-learn  
+foolbox==3.3.4  
 
-You can install the dependencies in an active environment with:
+Example installation commands:
 
-pip install tensorflow numpy pandas matplotlib scikit-learn
-pip install foolbox==3.3.4
+`pip install tensorflow numpy pandas matplotlib scikit-learn`  
+`pip install foolbox==3.3.4`
 
+## 3. Dataset setup
 
-3. Dataset setup
-
-Dataset used
+Dataset used  
 FER2013 facial expression dataset
 
-Source
+Source  
 https://www.kaggle.com/datasets/ashishpatel26/facial-expression-recognitionferchallenge
 
-Local setup
+### Local setup
 
-Step 1
-Download fer2013.csv from the Kaggle dataset page.
+Step 1  
+Download `fer2013.csv` from the Kaggle dataset page.
 
-Step 2
-Place fer2013.csv in a folder of your choice inside this project, for example in a folder called data:
-data/fer2013.csv
+Step 2  
+Place `fer2013.csv` in a folder of your choice inside this project, for example in a folder called `data`:
 
-Step 3
-Open fer2013-adversarial-robustness.ipynb in Jupyter or another notebook environment.
+`data/fer2013.csv`
 
-Step 4
-In the cell where csv_path is defined, update the path so it points to your local file. For example:
+Step 3  
+Open `fer2013-adversarial-robustness.ipynb` in Jupyter or another notebook environment.
 
-csv_path = "data/fer2013.csv"
+Step 4  
+In the cell where `csv_path` is defined, update the path so it points to your local file. For example:
+
+`csv_path = "data/fer2013.csv"`
 
 Save the notebook after you change the path.
 
-Kaggle setup
+### Kaggle setup
 
-If you run the notebook on Kaggle and attach the same FER2013 dataset to the notebook, you can keep the original csv_path that uses the ../input path used in the PDF version. In that case you do not need to change anything, as long as the dataset is correctly attached to the Kaggle notebook.
+If you run the notebook on Kaggle and attach the same FER2013 dataset to the notebook, you can keep the original `csv_path` that uses the `../input` path. In that case you do not need to change anything, as long as the dataset is correctly attached to the Kaggle notebook.
 
+## 4. How to run the code
 
-4. How to run the code
-
-Step 1
+Step 1  
 Activate the environment that has all required packages installed.
 
-Step 2
-Start Jupyter (or open the notebook in Colab or Kaggle) and open fer2013-adversarial-robustness.ipynb.
+Step 2  
+Start Jupyter (or open the notebook in Colab or Kaggle) and open `fer2013-adversarial-robustness.ipynb`.
 
-Step 3
-Verify that the csv_path variable points to the correct location of fer2013.csv as described above.
+Step 3  
+Verify that the `csv_path` variable points to the correct location of `fer2013.csv` as described above.
 
-Step 4
+Step 4  
 Run all cells in order, from the first cell to the last one.
 
-The notebook will perform the following actions automatically:
-imports and global settings
-loading and preprocessing FER2013 from fer2013.csv
-building and training a baseline CNN model or loading baseline_cnn.h5 if it already exists
-evaluating the baseline model on clean test data
-generating adversarial examples using PGD and DeepFool
-evaluating the baseline model on adversarial examples
-applying feature squeezing with spatial smoothing and reevaluating
-running adversarial training with PGD and DeepFool and saving the robust model as robust_cnn_adv_pgd_df_pro.h5
-loading the robust model and evaluating it on clean and adversarial data
-validating the custom PGD and DeepFool implementations against the Foolbox implementations
+The notebook will then:
 
-Training notes
+import libraries and set global options  
+load and preprocess FER2013 from `fer2013.csv`  
+build and train a baseline CNN model or load `baseline_cnn.h5` if it already exists  
+evaluate the baseline model on clean test data  
+generate adversarial examples using PGD and DeepFool  
+evaluate the baseline model on adversarial examples  
+apply feature squeezing with spatial smoothing and reevaluate  
+run adversarial training with PGD and DeepFool and save the robust model as `robust_cnn_adv_pgd_df_pro.h5`  
+load the robust model and evaluate it on clean and adversarial data  
+validate the custom PGD and DeepFool implementations against the Foolbox implementations  
 
-The first training of the baseline model and especially the adversarial training phase can take a long time on CPU. A GPU is strongly recommended. If the files baseline_cnn.h5 or robust_cnn_adv_pgd_df_pro.h5 already exist in the project directory, the notebook will load them and skip the corresponding training steps.
+### Training notes
 
+The first training of the baseline model and especially the adversarial training phase can take a long time on CPU. A GPU is strongly recommended. If the files `baseline_cnn.h5` or `robust_cnn_adv_pgd_df_pro.h5` already exist in the project directory, the notebook will load them and skip the corresponding training steps.
 
-5. Outputs
+## 5. Outputs
 
 After running the entire notebook you should have:
 
-baseline_cnn.h5
+`baseline_cnn.h5`  
 Model trained only on clean FER2013 images.
 
-robust_cnn_adv_pgd_df_pro.h5
+`robust_cnn_adv_pgd_df_pro.h5`  
 Model trained with adversarial examples generated by PGD and DeepFool.
 
-The notebook also prints test accuracy and loss for both clean and adversarial data, and shows several plots that compare clean and adversarial images and summarize the training progress.
+The notebook also prints test accuracy and loss for both clean and adversarial data and shows several plots that compare clean and adversarial images and summarize the training progress.
